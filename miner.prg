@@ -1,9 +1,9 @@
 /*
- * test.prg by Mart
+ * miner.prg by Mart
  * (c) 2023 Nightweave
  */
 
-PROGRAM test;
+PROGRAM miner;
 
 CONST
     STATE_NONE  = 0;
@@ -17,7 +17,7 @@ CONST
     DIR_RIGHT   = 0;
 
     SCALE = 2;
-    ANIM_SPEED = 2;
+    ANIM_SPEED = SCALE;
 
 GLOBAL
     s_width = 320 * SCALE;
@@ -30,6 +30,9 @@ GLOBAL
 
 LOCAL
     string s_size;
+    anim;
+    cur_dir;
+    new_dir;
 
 BEGIN
     load_fpg("miner.fpg");
@@ -48,22 +51,23 @@ BEGIN
 END
 
 process player()
+
 private
-    cur_dir = DIR_RIGHT;
-    new_dir;
     tid;
     speed;
-    anim;
     jump_speed = 0;
     gravity = 10;
     WILLY_STATE = STATE_NONE;
     JUMP_STATE = STATE_NONE;
+
 begin
     speed = SCALE;
     x = 100;
     y = s_height - (8 + (16 * scale));
     graph = 1;
     size = 100 * SCALE;
+
+    cur_dir = DIR_RIGHT;
 
     loop
         anim++;
@@ -111,14 +115,7 @@ begin
         switch (WILLY_STATE)
             case STATE_WALK :
                 tid = write(0, 0, 20, 3, "State: WALK");
-                if (anim % ANIM_SPEED == 0)
-                    graph += 1;
-                    if (graph > 4) graph = 1; end
-                    if (cur_dir != new_dir)
-                        cur_dir = new_dir;
-                        flags = cur_dir;
-                    end
-                end
+                do_anim(1, 4);
             end
             case STATE_JUMP :
                 tid = write(0, 0, 20, 3, "State: JUMP");
@@ -133,14 +130,7 @@ begin
                     end
                 end
                 if (JUMP_STATE == STATE_LEFT OR JUMP_STATE == STATE_RIGHT)
-                    if (anim % ANIM_SPEED == 0)
-                        graph += 1;
-                        if (graph > 4) graph = 1; end
-                        if (cur_dir != new_dir)
-                            cur_dir = new_dir;
-                            flags = cur_dir;
-                        end
-                    end
+                    do_anim(1, 4);
                 end
                 if (jump_speed > gravity)
                     jump_speed = 0;
@@ -156,6 +146,18 @@ begin
         frame;
     end
 
+end
+
+function do_anim(min, max)
+begin
+    if (father.anim % ANIM_SPEED == 0)
+        father.graph += 1;
+        if (father.graph > max) father.graph = min; end
+        if (father.cur_dir != father.new_dir)
+            father.cur_dir = father.new_dir;
+            father.flags = father.cur_dir;
+        end
+    end
 end
 
 // Check and set every key once per frame
