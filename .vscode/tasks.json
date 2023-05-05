@@ -1,0 +1,70 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+  //
+  // system/div-OSX -c {$file}
+  // system/divdbg-OSX system/EXEC.EXE
+  //
+  // ** Make sure DIV_HOME is set **
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "div-build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+			"dependsOn": [
+        "div-compile",
+        "div-run"
+      ],
+			"hide": false,
+		},
+    {
+      "label": "div-compile",
+      "type": "shell",
+      "command": "${env:DIV_HOME}/system/div-OSX",
+      "options": {
+        "cwd": "${env:DIV_HOME}"
+      },
+      "args": [
+        "-c",
+        "${file}"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "close": true
+      }
+    },
+    {
+      "label": "div-run",
+      "type": "process",
+      "dependsOn": [
+        "div-compile",
+      ],
+      "options": {
+        "cwd": "${env:DIV_HOME}"
+      },
+      "command": "${env:DIV_HOME}/system/divdbg-OSX",
+      "args": [
+        "${env:DIV_HOME}/system/EXEC.EXE"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "close": true
+      }
+    }
+	]
+}

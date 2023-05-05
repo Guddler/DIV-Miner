@@ -1,6 +1,9 @@
 /*
  * miner.prg by Mart
- * (c) 2023 Nightweave
+ * (c)2023 Nightweave
+ *
+ * Original assets from:
+ * https://www.spriters-resource.com/zx_spectrum/manicminer/sheet/113060
  */
 
 PROGRAM miner;
@@ -185,4 +188,3 @@ begin
         frame;
     end
 end
-
