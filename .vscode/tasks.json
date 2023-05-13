@@ -15,11 +15,31 @@
         "isDefault": true
       },
 			"dependsOn": [
+        "div-clean",
         "div-compile",
         "div-run"
       ],
 			"hide": false,
 		},
+    {
+      "label": "div-clean",
+      "type": "shell",
+      "command": "rm",
+      "args": [
+        "-f",
+        "${env:DIV_HOME}/system/EXEC.EXE"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        //"revealProblems": "onProblem",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "close": true
+      }
+    },
     {
       "label": "div-compile",
       "type": "shell",
@@ -34,7 +54,7 @@
       "presentation": {
         "echo": true,
         "reveal": "silent",
-        "revealProblems": "onProblem",
+        //"revealProblems": "onProblem",
         "focus": false,
         "panel": "shared",
         "showReuseMessage": false,
@@ -50,6 +70,7 @@
       ],
       "options": {
         "cwd": "${env:DIV_HOME}"
+        //"cwd": "${fileDirname}"
       },
       "command": "${env:DIV_HOME}/system/divdbg-OSX",
       "args": [
@@ -58,10 +79,10 @@
       "presentation": {
         "echo": true,
         "reveal": "silent",
-        "revealProblems": "onProblem",
+        //"revealProblems": "onProblem",
         "focus": false,
         "panel": "shared",
-        "showReuseMessage": false,
+        "showReuseMessage": true,
         "clear": true,
         "close": true
       }
